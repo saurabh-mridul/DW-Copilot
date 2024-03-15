@@ -25,8 +25,19 @@
               {
                 "type": "Image",
                 "style": "person",
-                "url": "https://tse2.mm.bing.net/th?q=Funny+Cats&pid=Api&mkt=en-US&adlt=moderate&t=1",
+                "url": "https://tse3.mm.bing.net/th?q=Grumpy+Cat&pid=Api&mkt=en-US&adlt=moderate&t=1",
                 "size": "large"
+              }
+            ],
+            "width": "auto"
+          },
+          {
+            "type": "Column",
+            "items": [
+              {
+                "type": "TextBlock",
+                "text": "DWSmartAssistant gets the data from Digital Integration Platform",
+                "wrap": true
               }
             ],
             "width": "auto"
@@ -53,6 +64,14 @@
             "value": "${if(status, status, 'N/A')}"
           }
         ]
+      }
+    ],
+    "actions": [
+      {
+        "type": "Action.OpenUrl",
+        "title": "View space",
+        "url": "https://en.wikipedia.org/wiki/Building",
+        "role": "button"
       }
     ]
   },
