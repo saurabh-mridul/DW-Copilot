@@ -20,7 +20,6 @@ devTools/
 *.suo
 *.user
 *.sln.docstates
-*.vscode
 *.zip
 
 # Build results
