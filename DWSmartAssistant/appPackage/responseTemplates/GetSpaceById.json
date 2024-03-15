@@ -1,0 +1,63 @@
+{
+  "version": "devPreview",
+  "$schema": "https://developer.microsoft.com/json-schemas/teams/vDevPreview/MicrosoftTeams.ResponseRenderingTemplate.schema.json",
+  "jsonPath": "$",
+  "responseLayout": "list",
+  "responseCardTemplate": {
+    "type": "AdaptiveCard",
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+    "version": "1.5",
+    "body": [
+      {
+        "type": "TextBlock",
+        "size": "medium",
+        "weight": "bolder",
+        "text": "Space Information",
+        "style": "heading",
+        "wrap": true
+      },
+      {
+        "type": "ColumnSet",
+        "columns": [
+          {
+            "type": "Column",
+            "items": [
+              {
+                "type": "Image",
+                "style": "person",
+                "url": "https://tse2.mm.bing.net/th?q=Funny+Cats&pid=Api&mkt=en-US&adlt=moderate&t=1",
+                "size": "large"
+              }
+            ],
+            "width": "auto"
+          }
+        ]
+      },
+      {
+        "type": "FactSet",
+        "facts": [
+          {
+            "title": "Space name:",
+            "value": "${if(name, name, 'N/A')}"
+          },
+          {
+            "title": "Space  dtId:",
+            "value": "${if($dtId, $dtId, 'N/A')}"
+          },
+          {
+            "title": "Space Id:",
+            "value": "${if(externalId, externalId, 'N/A')}"
+          },
+          {
+            "title": "Space status:",
+            "value": "${if(status, status, 'N/A')}"
+          }
+        ]
+      }
+    ]
+  },
+  "previewCardTemplate": {
+    "title": "${if(name, name, 'N/A')}",
+    "subtitle": "${if($dtId, $dtId, 'N/A')}"
+  }
+}

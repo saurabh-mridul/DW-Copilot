@@ -1,0 +1,302 @@
+openapi: 3.0.1
+info:
+  title: AzureDigitalTwinsPlatformAPIs
+  version: '1.0'
+servers:
+  - url: https://dt-platform-api.azurewebsites.net
+paths:
+  /building:
+    get:
+      tags:
+        - Digital Integration Platform
+      summary: Get Building by given Name
+      description: >-
+        Get information of a building it's name from the Digital Integration
+        Platform.
+      operationId: GetBuildingByName
+      parameters:
+        - name: name
+          in: query
+          required: true
+          style: form
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema: &ref_5
+                type: object
+                properties:
+                  $dtId:
+                    type: string
+                    nullable: true
+                  $etag: &ref_0
+                    type: object
+                    additionalProperties: false
+                  $metadata: &ref_1
+                    type: object
+                    properties:
+                      $model:
+                        type: string
+                        nullable: true
+                      propertyMetadata:
+                        type: object
+                        additionalProperties: &ref_6
+                          type: object
+                          properties:
+                            lastUpdateTime:
+                              type: string
+                              format: date-time
+                          additionalProperties: false
+                        nullable: true
+                    additionalProperties: false
+                  externalId:
+                    type: integer
+                    format: int32
+                    nullable: true
+                  name:
+                    type: string
+                    nullable: true
+                  roomKey:
+                    type: string
+                    nullable: true
+                  friendlyName:
+                    type: string
+                    nullable: true
+                  description:
+                    type: string
+                    nullable: true
+                  squareFootArea:
+                    type: number
+                    format: float
+                    nullable: true
+                  featureId:
+                    type: string
+                    nullable: true
+                  geometry: &ref_2
+                    type: object
+                    properties:
+                      type:
+                        type: string
+                        nullable: true
+                      coordinates:
+                        type: object
+                        additionalProperties:
+                          type: string
+                        nullable: true
+                    additionalProperties: false
+                  capabilities:
+                    type: object
+                    additionalProperties:
+                      type: boolean
+                    nullable: true
+                  status: &ref_3
+                    enum:
+                      - Active
+                      - Inactive
+                      - Pending
+                      - UnderConstruction
+                    type: string
+                  physicalSpace: &ref_4
+                    enum:
+                      - Indoor
+                      - Outdoor
+                    type: string
+                  businessEntityNumber:
+                    type: string
+                    nullable: true
+                  number:
+                    type: integer
+                    format: int32
+                    nullable: true
+                  shortName:
+                    type: string
+                    nullable: true
+                  squareMeter:
+                    type: number
+                    format: float
+                    nullable: true
+                  rationalSortKey:
+                    type: string
+                    nullable: true
+                  regionId:
+                    type: string
+                    nullable: true
+                  startOfBusinessTime:
+                    nullable: true
+                  endOfBusinessTime:
+                    nullable: true
+                  businessEntityName:
+                    type: string
+                    nullable: true
+                  amenities:
+                    type: object
+                    additionalProperties:
+                      type: boolean
+                    nullable: true
+                additionalProperties: {}
+        '404':
+          description: Not Found
+  /sensors/{id}:
+    get:
+      tags:
+        - Digital Integration Platform
+      summary: Get sensor by given Id
+      description: >-
+        Get information of a sensor by it's id from from the Digital Integration
+        Platform.
+      operationId: GetSensorById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          style: simple
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema: &ref_7
+                type: object
+                properties:
+                  $dtId:
+                    type: string
+                    nullable: true
+                  $etag: *ref_0
+                  $metadata: *ref_1
+                  port:
+                    type: string
+                    nullable: true
+                  protocolId:
+                    type: string
+                    nullable: true
+                  pollRate:
+                    type: integer
+                    format: int32
+                    nullable: true
+                  basicDeltaProcessingRefreshTime:
+                    type: integer
+                    format: int32
+                    nullable: true
+                  manufacturerName:
+                    type: string
+                    nullable: true
+                  valueType:
+                    type: string
+                    nullable: true
+                  brandName:
+                    type: string
+                    nullable: true
+                  regionId:
+                    type: string
+                    nullable: true
+                  buildingId:
+                    type: string
+                    nullable: true
+                  floorId:
+                    type: string
+                    nullable: true
+                  status: &ref_10
+                    enum:
+                      - Active
+                      - Inactive
+                    type: string
+                  category: &ref_8
+                    enum:
+                      - LightingSystem
+                      - Environmental
+                      - PeopleDensity
+                      - Occupancy
+                      - BMS
+                    type: string
+                  healthStatus: &ref_9
+                    enum:
+                      - Healthy
+                      - Unhealthy
+                    type: string
+                additionalProperties: {}
+        '404':
+          description: Not Found
+  /spaces/{id}:
+    get:
+      tags:
+        - Digital Integration Platform
+      summary: Get space by given Id
+      description: >-
+        Get information of a space by it's id from the Digital Integration
+        Platform.
+      operationId: GetSpaceById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          style: simple
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema: &ref_11
+                type: object
+                properties:
+                  $dtId:
+                    type: string
+                    nullable: true
+                  $etag: *ref_0
+                  $metadata: *ref_1
+                  externalId:
+                    type: integer
+                    format: int32
+                    nullable: true
+                  name:
+                    type: string
+                    nullable: true
+                  roomKey:
+                    type: string
+                    nullable: true
+                  friendlyName:
+                    type: string
+                    nullable: true
+                  description:
+                    type: string
+                    nullable: true
+                  squareFootArea:
+                    type: number
+                    format: float
+                    nullable: true
+                  featureId:
+                    type: string
+                    nullable: true
+                  geometry: *ref_2
+                  capabilities:
+                    type: object
+                    additionalProperties:
+                      type: boolean
+                    nullable: true
+                  status: *ref_3
+                  physicalSpace: *ref_4
+                additionalProperties: {}
+        '404':
+          description: Not Found
+components:
+  schemas:
+    Building: *ref_5
+    DigitalTwinMetadata: *ref_1
+    DigitalTwinPropertyMetadata: *ref_6
+    ETag: *ref_0
+    Geometry: *ref_2
+    Sensor: *ref_7
+    SensorCategory: *ref_8
+    SensorHealthStatus: *ref_9
+    SensorStatus: *ref_10
+    Space: *ref_11
+    SpacePhysicalSpace: *ref_4
+    SpaceStatus: *ref_3

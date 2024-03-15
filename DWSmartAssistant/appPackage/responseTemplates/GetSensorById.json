@@ -1,0 +1,46 @@
+{
+  "version": "devPreview",
+  "$schema": "https://developer.microsoft.com/json-schemas/teams/vDevPreview/MicrosoftTeams.ResponseRenderingTemplate.schema.json",
+  "jsonPath": "$",
+  "responseLayout": "list",
+  "responseCardTemplate": {
+    "type": "AdaptiveCard",
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+    "version": "1.5",
+    "body": [
+      {
+        "type": "TextBlock",
+        "size": "medium",
+        "weight": "bolder",
+        "text": "Sensor Information",
+        "style": "heading",
+        "wrap": true
+      },
+      {
+        "type": "FactSet",
+        "facts": [
+          {
+            "title": "Sensor  id:",
+            "value": "${if($dtId, $dtId, 'N/A')}"
+          },
+          {
+            "title": "Sensor building id:",
+            "value": "${if(buildingId, buildingId, 'N/A')}"
+          },
+          {
+            "title": "Sensor brand:",
+            "value": "${if(brandName, brandName, 'N/A')}"
+          },
+          {
+            "title": "Sensor status:",
+            "value": "${if(status, status, 'N/A')}"
+          }
+        ]
+      }
+    ]
+  },
+  "previewCardTemplate": {
+    "title": "${if(manufacturerName, manufacturerName, 'N/A')}",
+    "subtitle": "${if($dtId, $dtId, 'N/A')}"
+  }
+}

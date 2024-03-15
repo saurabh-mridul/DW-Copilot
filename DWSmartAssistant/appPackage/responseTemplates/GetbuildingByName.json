@@ -1,0 +1,63 @@
+{
+  "version": "devPreview",
+  "$schema": "https://developer.microsoft.com/json-schemas/teams/vDevPreview/MicrosoftTeams.ResponseRenderingTemplate.schema.json",
+  "jsonPath": "$",
+  "responseLayout": "list",
+  "responseCardTemplate": {
+    "type": "AdaptiveCard",
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+    "version": "1.5",
+    "body": [
+      {
+        "type": "TextBlock",
+        "size": "medium",
+        "weight": "bolder",
+        "text": "Building Information",
+        "style": "heading",
+        "wrap": true
+      },
+      {
+        "type": "ColumnSet",
+        "columns": [
+          {
+            "type": "Column",
+            "items": [
+              {
+                "type": "Image",
+                "style": "person",
+                "url": "https://tse3.mm.bing.net/th?q=Grumpy+Cat&pid=Api&mkt=en-US&adlt=moderate&t=1",
+                "size": "large"
+              }
+            ],
+            "width": "auto"
+          }
+        ]
+      },
+      {
+        "type": "FactSet",
+        "facts": [
+          {
+            "title": "Building name:",
+            "value": "${if(name, name, 'N/A')}"
+          },
+          {
+            "title": "Building  dtId:",
+            "value": "${if($dtId, $dtId, 'N/A')}"
+          },
+          {
+            "title": "External Id:",
+            "value": "${if(externalId, externalId, 'N/A')}"
+          },
+          {
+            "title": "Building status:",
+            "value": "${if(status, status, 'N/A')}"
+          }
+        ]
+      }
+    ]
+  },
+  "previewCardTemplate": {
+    "title": "${if(name, name, 'N/A')}",
+    "subtitle": "${if($metadata.$model, $metadata.$model, 'N/A')}"
+  }
+}

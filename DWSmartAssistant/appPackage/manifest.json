@@ -1,0 +1,90 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/teams/vDevPreview/MicrosoftTeams.schema.json",
+  "manifestVersion": "devPreview",
+  "version": "1.0.0",
+  "id": "${{TEAMS_APP_ID}}",
+  "packageName": "com.microsoft.teams.extension",
+  "developer": {
+    "name": "Teams App, Inc.",
+    "websiteUrl": "https://www.example.com",
+    "privacyUrl": "https://www.example.com/privacy",
+    "termsOfUseUrl": "https://www.example.com/termofuse"
+  },
+  "icons": {
+    "color": "color.png",
+    "outline": "outline.png"
+  },
+  "name": {
+    "short": "DWSmartAssistant",
+    "full": "DWSmartAssistant"
+  },
+  "description": {
+    "short": "Search for entities from Digital Integration Platform.",
+    "full": "DWSmartAssistant allows users to search for entities from Digital Integration platform and get information about them. \nFirst use case - Get a building from 'Digital Integration Platform' based on the provided name of the building. \nHere are some examples of digital twins related queries where the DWSmartAssistant can be used: \n1. Get a building from 'Digital Integration Platform' based on it's name \n2. Fetch information of a building with the given name from 'Digital Integration Platform'.\nSecond use case - Get a sensor from 'Digital Integration Platform' based on the id of the sensor. \nThird use case - Get a space from 'Digital Integration Platform' based on the id of the space. \n The plugin is built using Microsoft Teams App SDK and is hosted on Microsoft Teams."
+  },
+  "accentColor": "#FFFFFF",
+  "composeExtensions": [
+    {
+      "composeExtensionType": "apiBased",
+      "apiSpecificationFile": "apiSpecificationFile/openapi.yaml",
+      "commands": [
+        {
+          "context": [
+            "compose"
+          ],
+          "type": "query",
+          "title": "Get Building by given Name",
+          "id": "GetBuildingByName",
+          "parameters": [
+            {
+              "name": "name",
+              "title": "Name",
+              "description": "name of the building"
+            }
+          ],
+          "description": "Get information of a building by it's name from the Digital Integration Platform.",
+          "apiResponseRenderingTemplateFile": "responseTemplates/GetbuildingByName.json"
+        },
+        {
+          "context": [
+            "compose"
+          ],
+          "type": "query",
+          "title": "Get sensor by given Id",
+          "id": "GetSensorById",
+          "parameters": [
+            {
+              "name": "id",
+              "title": "Id",
+              "description": "id of the sensor"
+            }
+          ],
+          "description": "Get information of a sensor by it's id from from the Digital Integration Platform.",
+          "apiResponseRenderingTemplateFile": "responseTemplates/GetSensorById.json"
+        },
+        {
+          "context": [
+            "compose"
+          ],
+          "type": "query",
+          "title": "Get space by given Id",
+          "id": "GetSpaceById",
+          "parameters": [
+            {
+              "name": "id",
+              "title": "Id",
+              "description": "id of the space"
+            }
+          ],
+          "description": "Get information of a space by it's id from the Digital Integration Platform.",
+          "apiResponseRenderingTemplateFile": "responseTemplates/GetSpaceById.json"
+        }
+      ]
+    }
+  ],
+  "permissions": [
+    "identity",
+    "messageTeamMembers"
+  ],
+  "validDomains": []
+}
