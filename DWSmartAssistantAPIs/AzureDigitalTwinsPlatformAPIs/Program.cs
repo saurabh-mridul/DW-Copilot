@@ -1,18 +1,27 @@
 using AzureDigitalTwinsPlatformAPIs;
 using AzureDigitalTwinsPlatformAPIs.Interfaces;
-using Microsoft.AspNetCore.Authorization.Infrastructure;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.DigitalWorkplace.Integration.Extensions.DigitalTwins;
 using Microsoft.DigitalWorkplace.Integration.Models.DigitalTwins;
 using Microsoft.OpenApi.Models;
+using Swashbuckle.AspNetCore.SwaggerGen;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services
         .ConfigureServices()
         .ConfigureTokenCredential()
         .ConfigureClientExtensions();
+
+// builder.Services.AddAuthentication().AddBearerToken();
+// builder.Services.AddAuthorizationBuilder().AddPolicy("admin_access", policy =>
+//                 policy.RequireRole("admin").RequireClaim("permission", "admin"));
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.Configure<SwaggerGeneratorOptions>(options =>
+{
+    options.InferSecuritySchemes = true;
+});
 
 var app = builder.Build();
 
@@ -34,8 +43,20 @@ app.UseSwaggerUI();
 
 app.UseHttpsRedirection();
 
+var clients = app.MapGroup("")
+    .AddEndpointFilterFactory((handlerContext, next) =>
+    {
+        var loggerFactory = handlerContext.ApplicationServices.GetRequiredService<ILoggerFactory>();
+        var logger = loggerFactory.CreateLogger("RequestAuditor");
+        return invocationContext =>
+        {
+            logger.LogInformation("Received Request: {Method} {Path}", invocationContext.HttpContext.Request.Method, invocationContext.HttpContext.Request.Path);
+            return next(invocationContext);
+        };
+    });
 
-app.MapGet("/building", async Task<Results<Ok<Building>, NotFound>> (ISpaceDigitalTwinService spaceService, string name) =>
+
+clients.MapGet("/building", async Task<Results<Ok<Building>, NotFound>> (ISpaceDigitalTwinService spaceService, string name) =>
     await spaceService.GetBuilding(name) is { } Building
         ? TypedResults.Ok(Building)
         : TypedResults.NotFound())
@@ -51,7 +72,21 @@ app.MapGet("/building", async Task<Results<Ok<Building>, NotFound>> (ISpaceDigit
         }
     });
 
-app.MapGet("/spaces", async (ISpaceDigitalTwinService spaceService) =>
+clients.MapGet("/rooms", async Task<Results<Ok<IEnumerable<Room>>, NotFound>> (ISpaceDigitalTwinService spaceService, string buildingName, string floorName) =>
+    TypedResults.Ok(await spaceService.GetRooms(buildingName, floorName)))
+    .WithName("GetRooms")
+    .WithOpenApi(x => new OpenApiOperation(x)
+    {
+        Summary = "Get Rooms by Building and Floor",
+        Description = "Get information of rooms by building and floor from the Digital Integration Platform.",
+        Tags = [new() { Name = "Digital Integration Platform" }],
+        RequestBody = new OpenApiRequestBody
+        {
+            Content = new Dictionary<string, OpenApiMediaType> { ["application/json"] = new OpenApiMediaType() }
+        }
+    });
+
+clients.MapGet("/spaces", async (ISpaceDigitalTwinService spaceService) =>
     TypedResults.Ok(await spaceService.GetSpaces()))
     .WithName("GetSpaces")
     .WithOpenApi(x => new OpenApiOperation(x)
@@ -65,7 +100,7 @@ app.MapGet("/spaces", async (ISpaceDigitalTwinService spaceService) =>
         }
     });
 
-app.MapGet("/spaces/{id}", async Task<Results<Ok<Space>, NotFound>> (ISpaceDigitalTwinService spaceService, Guid id) =>
+clients.MapGet("/spaces/{id}", async Task<Results<Ok<Space>, NotFound>> (ISpaceDigitalTwinService spaceService, Guid id) =>
     await spaceService.GetSpace(id) is { } Space
         ? TypedResults.Ok(Space)
         : TypedResults.NotFound())
@@ -81,7 +116,7 @@ app.MapGet("/spaces/{id}", async Task<Results<Ok<Space>, NotFound>> (ISpaceDigit
         }
     });
 
-app.MapGet("/sensors", async (ISensorDigitalTwinService sensorService) =>
+clients.MapGet("/sensors", async (ISensorDigitalTwinService sensorService) =>
     TypedResults.Ok(await sensorService.GetSensors()))
     .WithName("GetSensors")
     .WithOpenApi(x => new OpenApiOperation(x)
@@ -95,7 +130,7 @@ app.MapGet("/sensors", async (ISensorDigitalTwinService sensorService) =>
         }
     });
 
-app.MapGet("/sensors/{id}", async Task<Results<Ok<Sensor>, NotFound>> (ISensorDigitalTwinService sensorService, Guid id) =>
+clients.MapGet("/sensors/{id}", async Task<Results<Ok<Sensor>, NotFound>> (ISensorDigitalTwinService sensorService, Guid id) =>
     await sensorService.GetSensor(id) is { } Sensor
         ? TypedResults.Ok(Sensor)
         : TypedResults.NotFound())

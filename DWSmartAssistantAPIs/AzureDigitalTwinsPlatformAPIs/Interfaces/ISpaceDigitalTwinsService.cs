@@ -7,6 +7,7 @@ namespace AzureDigitalTwinsPlatformAPIs.Interfaces
     public interface ISpaceDigitalTwinService
     {
         Task<Building?> GetBuilding(string buildingName);
+        Task<IEnumerable<Room>> GetRooms(string buildingName, string floorName);
         Task<IEnumerable<Space>> GetSpaces();
         Task<Space> GetSpace(Guid spaceId);
     }

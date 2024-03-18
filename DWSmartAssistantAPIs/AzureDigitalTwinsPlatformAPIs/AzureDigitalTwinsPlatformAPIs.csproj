@@ -9,6 +9,7 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.2" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="6.0.0" />
     <PackageReference Include="Microsoft.DigitalWorkplace.Integration.Models.DigitalTwins" Version="27.8.2" />
     <PackageReference Include="Microsoft.DigitalWorkplace.Integration.Extensions.DigitalTwins" Version="15.7.2" />
   </ItemGroup>
