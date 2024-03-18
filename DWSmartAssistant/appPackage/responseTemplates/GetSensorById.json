@@ -17,6 +17,34 @@
         "wrap": true
       },
       {
+        "type": "ColumnSet",
+        "columns": [
+          {
+            "type": "Column",
+            "items": [
+              {
+                "type": "Image",
+                "style": "person",
+                "url": "https://tse3.mm.bing.net/th?q=Grumpy+Cat&pid=Api&mkt=en-US&adlt=moderate&t=1",
+                "size": "large"
+              }
+            ],
+            "width": "auto"
+          },
+          {
+            "type": "Column",
+            "items": [
+              {
+                "type": "TextBlock",
+                "text": "DWSmartAssistant gets the data from Digital Integration Platform",
+                "wrap": true
+              }
+            ],
+            "width": "auto"
+          }
+        ]
+      },
+      {
         "type": "FactSet",
         "facts": [
           {
@@ -36,6 +64,14 @@
             "value": "${if(status, status, 'N/A')}"
           }
         ]
+      }
+    ],
+    "actions": [
+      {
+        "type": "Action.OpenUrl",
+        "title": "View sensor",
+        "url": "https://en.wikipedia.org/wiki/Sensor",
+        "role": "button"
       }
     ]
   },

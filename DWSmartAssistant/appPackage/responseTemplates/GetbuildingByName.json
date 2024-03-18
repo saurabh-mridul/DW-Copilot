@@ -30,6 +30,17 @@
               }
             ],
             "width": "auto"
+          },
+          {
+            "type": "Column",
+            "items": [
+              {
+                "type": "TextBlock",
+                "text": "DWSmartAssistant gets the data from Digital Integration Platform",
+                "wrap": true
+              }
+            ],
+            "width": "auto"
           }
         ]
       },
@@ -53,6 +64,14 @@
             "value": "${if(status, status, 'N/A')}"
           }
         ]
+      }
+    ],
+    "actions": [
+      {
+        "type": "Action.OpenUrl",
+        "title": "View Building",
+        "url": "https://en.wikipedia.org/wiki/Building",
+        "role": "button"
       }
     ]
   },
