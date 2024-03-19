@@ -7,6 +7,15 @@ using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Logging.AddConsole();
+builder.Services.AddCors(options => {
+    options.AddDefaultPolicy(policy => {
+        policy.AllowAnyOrigin()
+            .AllowAnyMethod()
+            .AllowAnyHeader();
+    });
+});
+
 builder.Services
         .ConfigureServices()
         .ConfigureTokenCredential()
@@ -25,9 +34,9 @@ builder.Services.Configure<SwaggerGeneratorOptions>(options =>
 
 var app = builder.Build();
 
-// app.UseStatusCodePages(async statusCodeContext
-//     => await Results.Problem(statusCode: statusCodeContext.HttpContext.Response.StatusCode)
-//         .ExecuteAsync(statusCodeContext.HttpContext));
+app.UseStatusCodePages(async statusCodeContext
+    => await Results.Problem(statusCode: statusCodeContext.HttpContext.Response.StatusCode)
+        .ExecuteAsync(statusCodeContext.HttpContext));
 
 //if (app.Environment.IsDevelopment())
 //{
@@ -41,6 +50,7 @@ app.UseSwagger(options =>
 app.UseSwaggerUI();
 //}
 
+app.UseCors();
 app.UseHttpsRedirection();
 
 var clients = app.MapGroup("")
@@ -65,7 +75,7 @@ clients.MapGet("/building", async Task<Results<Ok<Building>, NotFound>> (ISpaceD
     {
         Summary = "Get Building by given Name",
         Description = "Get information of a building it's name from the Digital Integration Platform.",
-        Tags = [new() { Name = "Digital Integration Platform" }],
+        Tags = [new() { Name = "Spaces" }],
         RequestBody = new OpenApiRequestBody
         {
             Content = new Dictionary<string, OpenApiMediaType> { ["application/json"] = new OpenApiMediaType() }
@@ -79,7 +89,7 @@ clients.MapGet("/rooms", async Task<Results<Ok<IEnumerable<Room>>, NotFound>> (I
     {
         Summary = "Get Rooms by Building and Floor",
         Description = "Get information of rooms by building and floor from the Digital Integration Platform.",
-        Tags = [new() { Name = "Digital Integration Platform" }],
+        Tags = [new() { Name = "Spaces" }],
         RequestBody = new OpenApiRequestBody
         {
             Content = new Dictionary<string, OpenApiMediaType> { ["application/json"] = new OpenApiMediaType() }
@@ -93,7 +103,7 @@ clients.MapGet("/spaces", async (ISpaceDigitalTwinService spaceService) =>
     {
         Summary = "Get Spaces information",
         Description = "Returns information about all the available space digital twins from the Digital Integration Platform.",
-        Tags = [new() { Name = "Digital Integration Platform" }],
+        Tags = [new() { Name = "Spaces" }],
         RequestBody = new OpenApiRequestBody
         {
             Content = new Dictionary<string, OpenApiMediaType> { ["application/json"] = new OpenApiMediaType() }
@@ -109,7 +119,7 @@ clients.MapGet("/spaces/{id}", async Task<Results<Ok<Space>, NotFound>> (ISpaceD
     {
         Summary = "Get space by given Id",
         Description = "Get information of a space by it's id from the Digital Integration Platform.",
-        Tags = [new() { Name = "Digital Integration Platform" }],
+        Tags = [new() { Name = "Spaces" }],
         RequestBody = new OpenApiRequestBody
         {
             Content = new Dictionary<string, OpenApiMediaType> { ["application/json"] = new OpenApiMediaType() }
@@ -123,7 +133,7 @@ clients.MapGet("/sensors", async (ISensorDigitalTwinService sensorService) =>
     {
         Summary = "Get Sensors Digital Twins",
         Description = "Returns information about all the available sensor digital twins from the Digital Integration Platform.",
-        Tags = [new() { Name = "Digital Integration Platform" }],
+        Tags = [new() { Name = "Sensors" }],
         RequestBody = new OpenApiRequestBody
         {
             Content = new Dictionary<string, OpenApiMediaType> { ["application/json"] = new OpenApiMediaType() }
@@ -139,7 +149,7 @@ clients.MapGet("/sensors/{id}", async Task<Results<Ok<Sensor>, NotFound>> (ISens
     {
         Summary = "Get sensor by given Id",
         Description = "Get information of a sensor by it's id from from the Digital Integration Platform.",
-        Tags = [new() { Name = "Digital Integration Platform" }],
+        Tags = [new() { Name = "Sensors" }],
         RequestBody = new OpenApiRequestBody
         {
             Content = new Dictionary<string, OpenApiMediaType> { ["application/json"] = new OpenApiMediaType() }
